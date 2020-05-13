@@ -22,5 +22,5 @@ jobs:
     - name: Build e Push no Docker Hub
       run: |
         docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/${{ secrets.NOME_IMAGEM }}:latest
-        docker tag ${{ secrets.DOCKER_USERNAME }}/apicanaldoleo:latest ${{ secrets.DOCKER_USERNAME }}/${{ secrets.NOME_IMAGEM }}:$(date +%s)
+        docker tag ${{ secrets.DOCKER_USERNAME }}/${{ secrets.NOME_IMAGEM }}:latest ${{ secrets.DOCKER_USERNAME }}/${{ secrets.NOME_IMAGEM }}:$(date +%s)
         docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.NOME_IMAGEM }}
