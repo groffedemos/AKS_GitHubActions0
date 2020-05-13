@@ -24,3 +24,10 @@ jobs:
         docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/${{ secrets.NOME_IMAGEM }}:latest
         docker tag ${{ secrets.DOCKER_USERNAME }}/${{ secrets.NOME_IMAGEM }}:latest ${{ secrets.DOCKER_USERNAME }}/${{ secrets.NOME_IMAGEM }}:$(date +%s)
         docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.NOME_IMAGEM }}
+
+    - name: Azure Kubernetes set context - Conectando ao cluster
+      uses: Azure/aks-set-context@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }} 
+        resource-group: ${{ secrets.AZURE_RESOURCE_GROUP_K8S }}
+        cluster-name:  ${{ secrets.AZURE_CLUSTER_K8S }}
