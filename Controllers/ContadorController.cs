@@ -19,16 +19,11 @@ namespace APIContagem.Controllers
             {
                 _CONTADOR.Incrementar();
 
-                if (_CONTADOR.ValorAtual % 3 == 0)
-                {
-                    throw new Exception("Testando erro");
-                }
-
                 return new
                 {
                     _CONTADOR.ValorAtual,
                     Environment.MachineName,
-                    Local = "Teste...",
+                    Local = "Teste",
                     Sistema = Environment.OSVersion.VersionString,
                     Variavel = configuration["TesteAmbiente"],
                     TargetFramework = Assembly
