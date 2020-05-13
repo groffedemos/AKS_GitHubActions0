@@ -31,3 +31,11 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }} 
         resource-group: ${{ secrets.AZURE_RESOURCE_GROUP_K8S }}
         cluster-name:  ${{ secrets.AZURE_CLUSTER_K8S }}
+
+    - name: Deployment no AKS - Azure Kubernetes Service
+      uses: Azure/k8s-deploy@v1
+      with:
+        namespace: coding-night
+        manifests: |
+          manifests/deployment.yml
+          manifests/service.yml
