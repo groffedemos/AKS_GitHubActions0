@@ -1,0 +1,33 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Docker Login - Docker Hub
+      uses: Azure/docker-login@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build e Push no Docker Hub
+      run: |
+        docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/${{ secrets.NOME_IMAGEM }}:latest
+        docker tag ${{ secrets.DOCKER_USERNAME }}/${{ secrets.NOME_IMAGEM }}:latest ${{ secrets.DOCKER_USERNAME }}/${{ secrets.NOME_IMAGEM }}:$(date +%s)
+        docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.NOME_IMAGEM }}
+
+    - name: Azure Kubernetes set context - Conectando ao cluster
+      uses: Azure/aks-set-context@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }} 
+        resource-group: ${{ secrets.AZURE_RESOURCE_GROUP_K8S }}
+        cluster-name:  ${{ secrets.AZURE_CLUSTER_K8S }}
